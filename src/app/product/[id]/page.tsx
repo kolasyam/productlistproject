@@ -13,6 +13,7 @@ import { useParams } from "next/navigation";
 import { Minus, Plus, ArrowLeft } from "lucide-react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { ToastContainer, toast } from "react-toastify";
 interface Product {
   id: number;
   title: string;
@@ -58,7 +59,7 @@ function ProductDetail() {
     return <div className="text-white text-center py-10">Loading...</div>;
   if (error)
     return <div className="text-red-500 text-center py-10">Error: {error}</div>;
-
+  const notify = () => toast("Added to cart");
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6 flex flex-col items-center">
       {/* <button
@@ -109,9 +110,13 @@ function ProductDetail() {
             </button>
           </div>
 
-          <button className="mt-6 px-6 py-3 w-full bg-yellow-500 text-black text-lg font-bold rounded-full">
+          <button
+            onClick={notify}
+            className="mt-6 px-6 py-3 w-full bg-yellow-500 text-black text-lg font-bold rounded-full"
+          >
             Add to cart
           </button>
+          <ToastContainer />
         </div>
       )}
     </div>
