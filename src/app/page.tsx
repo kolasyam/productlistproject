@@ -167,6 +167,7 @@ import { create } from "zustand";
 import { Plus, Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 
 interface Product {
   id: number;
@@ -280,7 +281,7 @@ function App() {
               onClick={() => redirect(`/product/${product.id}`)}
               className="bg-gray-900 rounded-xl p-3 space-y-2 shadow-lg cursor-pointer"
             >
-              <img
+              <Image
                 src={product.thumbnail}
                 alt={product.title}
                 className="w-full h-[120px] object-cover rounded-lg"

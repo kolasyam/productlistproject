@@ -12,13 +12,23 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Minus, Plus, ArrowLeft } from "lucide-react";
 import { redirect } from "next/navigation";
+import Image from "next/image";
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  thumbnail: string;
+  category: string;
+}
 function ProductDetail() {
   const { id } = useParams();
   // const navigate = useNavigate();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,7 +41,11 @@ function ProductDetail() {
         const data = await response.json();
         setProduct(data);
       } catch (err) {
-        setError(err.message);
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("An unknown error occurred");
+        }
       } finally {
         setLoading(false);
       }
@@ -62,7 +76,7 @@ function ProductDetail() {
           >
             <ArrowLeft className="w-5 h-5" /> Back
           </button>
-          <img
+          <Image
             src={product.thumbnail}
             alt={product.title}
             className="w-full h-64 object-cover rounded-xl"
