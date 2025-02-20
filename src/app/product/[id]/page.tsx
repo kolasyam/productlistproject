@@ -9,7 +9,7 @@
 // export default page;
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "next/navigation";
 import { Minus, Plus, ArrowLeft } from "lucide-react";
 import { redirect } from "next/navigation";
 import Image from "next/image";
@@ -34,7 +34,7 @@ function ProductDetail() {
     const fetchProduct = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`https://dummyjson.com/products/1`);
+        const response = await fetch(`https://dummyjson.com/products/${id}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product");
         }
@@ -77,6 +77,8 @@ function ProductDetail() {
             <ArrowLeft className="w-5 h-5" /> Back
           </button>
           <Image
+            width={315}
+            height={260}
             src={product.thumbnail}
             alt={product.title}
             className="w-full h-64 object-cover rounded-xl"

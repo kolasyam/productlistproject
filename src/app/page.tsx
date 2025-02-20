@@ -282,6 +282,8 @@ function App() {
               className="bg-gray-900 rounded-xl p-3 space-y-2 shadow-lg cursor-pointer"
             >
               <Image
+                width={315}
+                height={250}
                 src={product.thumbnail}
                 alt={product.title}
                 className="w-full h-[120px] object-cover rounded-lg"
