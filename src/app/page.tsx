@@ -1,101 +1,313 @@
-import Image from "next/image";
+// // import React from "react";
+// // import Product from "./products/page";
+// // const page = () => {
+// //   return (
+// //     <div>
+// //       <Product />
+// //     </div>
+// //   );
+// // };
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+// // export default page;
+// "use client";
+// import { Plus, Loader2 } from "lucide-react";
+// import { useEffect, useState } from "react";
+// import { redirect } from "next/navigation";
+// interface Product {
+//   id: number;
+//   title: string;
+//   description: string;
+//   price: number;
+//   rating: number;
+//   thumbnail: string;
+//   category: string;
+// }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+// interface ApiResponse {
+//   products: Product[];
+//   total: number;
+//   skip: number;
+//   limit: number;
+// }
+
+// function App() {
+//   const [products, setProducts] = useState<Product[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [selectedCategory, setSelectedCategory] = useState("all");
+
+//   useEffect(() => {
+//     const fetchProducts = async () => {
+//       try {
+//         setLoading(true);
+//         setError(null);
+//         const response = await fetch("https://dummyjson.com/products");
+//         if (!response.ok) {
+//           throw new Error("Failed to fetch products");
+//         }
+//         const data: ApiResponse = await response.json();
+//         setProducts(data.products);
+//       } catch (err) {
+//         setError(err instanceof Error ? err.message : "An error occurred");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchProducts();
+//   }, []);
+
+//   const categories = [
+//     "all",
+//     ...new Set(products.map((product) => product.category)),
+//   ];
+//   const filteredProducts =
+//     selectedCategory === "all"
+//       ? products
+//       : products.filter((product) => product.category === selectedCategory);
+
+//   if (error) {
+//     return (
+//       <div className="min-h-screen bg-black text-white flex items-center justify-center">
+//         <div className="text-center px-4">
+//           <p className="text-red-400 text-lg mb-4">Error: {error}</p>
+//           <button
+//             onClick={() => window.location.reload()}
+//             className="px-4 py-2 bg-yellow-500 text-black rounded-full font-semibold"
+//           >
+//             Try Again
+//           </button>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-black text-white px-4 py-6 max-w-[430px] mx-auto">
+//       <h1 className="text-3xl font-bold mb-4">Product List</h1>
+
+//       {/* Category Filter */}
+//       {/* <div className="flex gap-4 pb-4 overflow-x-auto">
+//         {categories.map((category) => (
+//           <button
+//             key={category}
+//             onClick={() => setSelectedCategory(category)}
+//             className={`px-4 py-2 rounded-full text-sm font-semibold transition
+//               ${selectedCategory === category
+//                 ? 'bg-yellow-500 text-black'
+//                 : 'text-gray-400'}`}
+//           >
+//             {category}
+//           </button>
+//         ))}
+//       </div> */}
+//       <div className="flex gap-2 px-4 overflow-x-auto pb-4 no-scrollbar">
+//         {categories.map((category) => (
+//           <button
+//             key={category}
+//             onClick={() => setSelectedCategory(category)}
+//             className={`px-4 py-2 rounded-full whitespace-nowrap capitalize
+//                 ${
+//                   selectedCategory === category
+//                     ? "bg-yellow-500 text-black font-semibold"
+//                     : "bg-gray-800 text-gray-300"
+//                 }`}
+//           >
+//             {category}
+//           </button>
+//         ))}
+//       </div>
+
+//       {/* Product Grid */}
+//       <div className="grid grid-cols-2 gap-4">
+//         {loading ? (
+//           <div className="col-span-2 flex justify-center py-12">
+//             <Loader2 className="w-8 h-8 animate-spin text-yellow-500" />
+//           </div>
+//         ) : (
+//           filteredProducts.map((product) => (
+//             <div
+//               key={product.id}
+//               onClick={() => redirect(`/product/${product.id}`)}
+//               className="bg-gray-900 rounded-xl p-3 space-y-2 shadow-lg cursor-pointer"
+//             >
+//               <img
+//                 src={product.thumbnail}
+//                 alt={product.title}
+//                 className="w-full h-[120px] object-cover rounded-lg"
+//               />
+//               <div className="flex items-center text-yellow-500 text-sm font-medium">
+//                 ★ {product.rating}
+//               </div>
+//               <h3 className="text-sm font-semibold text-white truncate">
+//                 {product.title}
+//               </h3>
+//               <p className="text-xs text-gray-400 truncate">
+//                 {product.description}
+//               </p>
+//               <div className="flex justify-between items-center">
+//                 <span className="text-lg font-bold text-white">
+//                   ${product.price}
+//                 </span>
+//                 <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition">
+//                   <Plus className="w-5 h-5 text-white" />
+//                 </button>
+//               </div>
+//             </div>
+//           ))
+//         )}
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default App;
+"use client";
+import { create } from "zustand";
+import { Plus, Loader2 } from "lucide-react";
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
+
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  rating: number;
+  thumbnail: string;
+  category: string;
+}
+
+interface ProductStore {
+  products: Product[];
+  loading: boolean;
+  error: string | null;
+  selectedCategory: string;
+  fetchProducts: () => void;
+  setSelectedCategory: (category: string) => void;
+}
+
+const useProductStore = create<ProductStore>((set) => ({
+  products: [],
+  loading: true,
+  error: null,
+  selectedCategory: "all",
+  fetchProducts: async () => {
+    try {
+      set({ loading: true, error: null });
+      const response = await fetch("https://dummyjson.com/products");
+      if (!response.ok) throw new Error("Failed to fetch products");
+      const data = await response.json();
+      set({ products: data.products, loading: false });
+    } catch (err) {
+      set({
+        error: err instanceof Error ? err.message : "An error occurred",
+        loading: false,
+      });
+    }
+  },
+  setSelectedCategory: (category) => set({ selectedCategory: category }),
+}));
+
+function App() {
+  const {
+    products,
+    loading,
+    error,
+    selectedCategory,
+    fetchProducts,
+    setSelectedCategory,
+  } = useProductStore();
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const categories =
+    products.length > 0
+      ? ["all", ...new Set(products.map((product) => product.category))]
+      : ["all"];
+  const filteredProducts =
+    selectedCategory === "all"
+      ? products
+      : products.filter((product) => product.category === selectedCategory);
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center px-4">
+          <p className="text-red-400 text-lg mb-4">Error: {error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-yellow-500 text-black rounded-full font-semibold"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            Try Again
+          </button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-black text-white px-4 py-6 max-w-[430px] mx-auto">
+      <h1 className="text-3xl font-bold mb-4">Product List</h1>
+
+      <div className="flex gap-2 px-4 overflow-x-auto pb-4 no-scrollbar">
+        {categories.map((category) => (
+          <button
+            key={category}
+            onClick={() => setSelectedCategory(category)}
+            className={`px-4 py-2 rounded-full whitespace-nowrap capitalize ${
+              selectedCategory === category
+                ? "bg-yellow-500 text-black font-semibold"
+                : "bg-gray-800 text-gray-300"
+            }`}
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        {loading ? (
+          <div className="col-span-2 flex justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-yellow-500" />
+          </div>
+        ) : (
+          filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              onClick={() => redirect(`/product/${product.id}`)}
+              className="bg-gray-900 rounded-xl p-3 space-y-2 shadow-lg cursor-pointer"
+            >
+              <img
+                src={product.thumbnail}
+                alt={product.title}
+                className="w-full h-[120px] object-cover rounded-lg"
+              />
+              <div className="flex items-center text-yellow-500 text-sm font-medium">
+                ★ {product.rating}
+              </div>
+              <h3 className="text-sm font-semibold text-white truncate">
+                {product.title}
+              </h3>
+              <p className="text-xs text-gray-400 truncate">
+                {product.description}
+              </p>
+              <div className="flex justify-between items-center">
+                <span className="text-lg font-bold text-white">
+                  ${product.price}
+                </span>
+                <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition">
+                  <Plus className="w-5 h-5 text-white" />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }
+
+export default App;
